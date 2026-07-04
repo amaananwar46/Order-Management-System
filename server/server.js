@@ -4,9 +4,8 @@ import dotenv from "dotenv";
 
 import connectDB from "./config/db.js";
 import orderRoutes from "./routes/orderRoute.js";
-import schedulerRoute from './routes/schedulerRoute.js'
+import schedulerRoute from "./routes/schedulerRoute.js";
 import "./cron/orderStatus.cron.js";
-
 
 dotenv.config();
 
@@ -15,22 +14,37 @@ const app = express();
 // Database Connection
 connectDB();
 
+// 🌐 Allowed Origins (LOCAL + VERCEL)
+const allowedOrigins = [
+  "http://localhost:5173",
+  "http://localhost:3000",
+  "https://order-management-system-client.vercel.app"
+];
+
+// ✅ CORS CONFIG
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      // allow Postman / server-to-server
+      if (!origin) return callback(null, true);
+
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+
+      return callback(new Error("Not allowed by CORS"));
+    },
+    credentials: true,
+  })
+);
+
 // Middlewares
-app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Routes
 app.use("/api/orders", orderRoutes);
-app.use("/api/scheduler",schedulerRoute);
-
-// // Test Route
-// app.get("/", (req, res) => {
-//   res.status(200).json({
-//     success: true,
-//     message: "Order Management API is Running 🚀",
-//   });
-// });
+app.use("/api/scheduler", schedulerRoute);
 
 const PORT = process.env.PORT || 5000;
 

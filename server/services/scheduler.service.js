@@ -17,7 +17,7 @@ export const runSchedulerJob = async () => {
         (currentTime - order.statusUpdatedAt) / (1000 * 60);
 
       // PLACED -> PROCESSING
-      if (order.orderStatus === "PLACED" && diff >= 0.25) {
+      if (order.orderStatus === "PLACED" && diff >= 0.10) {
         console.log("PLACED -> PROCESSING");
 
         const oldStatus = order.orderStatus;
@@ -39,7 +39,7 @@ export const runSchedulerJob = async () => {
       // PROCESSING -> READY_TO_SHIP
       else if (
         order.orderStatus === "PROCESSING" &&
-        diff >= 0.5
+        diff >= 20
       ) {
         console.log("PROCESSING -> READY_TO_SHIP");
 
@@ -91,43 +91,3 @@ export const runSchedulerJob = async () => {
 
 
 
-
-//testingggg--------------------------------
-// import Order from "../models/orderModel.js";
-
-// export const runSchedulerJob = async () => {
-//   let updatedOrders = 0;
-
-//   const orders = await Order.find();
-
-//   const currentTime = new Date();
-
-//   for (const order of orders) {
-
-//     const diff =
-//       (currentTime - order.statusUpdatedAt) / (1000 * 60);
-
-//     // 15 seconds
-//     if (order.orderStatus === "PLACED" && diff >= 0.25) {
-//       order.orderStatus = "PROCESSING";
-//       order.statusUpdatedAt = new Date();
-
-//       await order.save();
-//       updatedOrders++;
-//     }
-
-//     // 30 seconds
-//     else if (order.orderStatus === "PROCESSING" && diff >= 0.5) {
-//       order.orderStatus = "READY_TO_SHIP";
-//       order.statusUpdatedAt = new Date();
-
-//       await order.save();
-//       updatedOrders++;
-//     }
-//   }
-
-//   return {
-//     totalOrdersChecked: orders.length,
-//     totalOrdersUpdated: updatedOrders,
-//   };
-// };

@@ -14,18 +14,21 @@ const app = express();
 // Database Connection
 connectDB();
 
-// 🌐 Allowed Origins (LOCAL + VERCEL)
+// 🌐 Allowed Origins
 const allowedOrigins = [
   "http://localhost:5173",
   "http://localhost:3000",
-  "https://order-management-system-client.vercel.app"
+
+  // Vercel Frontend
+  "https://order-management-system-client.vercel.app",
+  "https://order-management-system-virid-ten.vercel.app",
 ];
 
-// ✅ CORS CONFIG
+// ✅ CORS
 app.use(
   cors({
-    origin: function (origin, callback) {
-      // allow Postman / server-to-server
+    origin(origin, callback) {
+      // Allow Postman & server-to-server requests
       if (!origin) return callback(null, true);
 
       if (allowedOrigins.includes(origin)) {
@@ -42,7 +45,7 @@ app.use(
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Routes
+// Health Check
 app.get("/", (req, res) => {
   res.json({
     success: true,
@@ -53,11 +56,11 @@ app.get("/", (req, res) => {
 app.get("/api/test", (req, res) => {
   res.json({
     success: true,
-    message: "API is working",
+    message: "API is working 🚀",
   });
 });
 
-
+// Routes
 app.use("/api/orders", orderRoutes);
 app.use("/api/scheduler", schedulerRoute);
 

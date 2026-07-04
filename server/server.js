@@ -43,6 +43,21 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Routes
+app.get("/", (req, res) => {
+  res.json({
+    success: true,
+    message: "Order Management API is running 🚀",
+  });
+});
+
+app.get("/api/test", (req, res) => {
+  res.json({
+    success: true,
+    message: "API is working",
+  });
+});
+
+
 app.use("/api/orders", orderRoutes);
 app.use("/api/scheduler", schedulerRoute);
 

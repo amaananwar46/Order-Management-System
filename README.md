@@ -77,8 +77,6 @@ Order-Management-System
 │   ├── pages
 │   ├── layouts
 │   ├── services
-│   ├── hooks
-│   ├── utils
 │   ├── App.jsx
 │   └── main.jsx
 │
@@ -90,8 +88,6 @@ Order-Management-System
 │   ├── models
 │   ├── routes
 │   ├── scheduler
-│   ├── utils
-│   ├── app.js
 │   └── server.js
 │
 └── README.md
@@ -222,17 +218,11 @@ x-secret-key : YOUR_SECRET_KEY
 Server
 
 ```
-PORT=5000
-
-MONGO_URI=your_mongodb_connection
-
-SECRET_KEY=your_secret_key
 ```
 
 Client
 
 ```
-VITE_API_URL=http://localhost:5000/api
 ```
 
 ---
